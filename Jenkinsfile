@@ -1,5 +1,4 @@
 pipeline {
-
     agent any
 
     tools {
@@ -10,8 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                url: 'https://github.com/prashikk/CiCd_and_AWS.git'
+                checkout scm
             }
         }
 
@@ -33,16 +31,10 @@ pipeline {
             }
         }
 
-    }
-
-    post {
-        success {
-            echo 'Build Successful'
-        }
-
-        failure {
-            echo 'Build Failed'
+        stage('Docker Build') {
+            steps {
+                sh 'docker build -t ping-api:latest .'
+            }
         }
     }
-
 }
