@@ -43,7 +43,6 @@ pipeline {
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
-
                     sh '''
                         echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 
@@ -61,31 +60,25 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 sshagent(credentials: ['ec2-ssh']) {
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@$EC2_HOST << EOF
-
-                        docker pull prashikk/ping-api:latest
-
-                        docker stop ping-api || true
-                        docker rm ping-api || true
-
-                        docker run -d \
-                            --name ping-api \
-                            -p 8080:8080 \
-                            --restart unless-stopped \
-                            prashikk/ping-api:latest
-
-                        docker image prune -f
-
-                        EOF
-                    '''
+                    sh """
+                        ssh -o StrictHostKeyChecking=no ubuntu@${EC2_HOST} '
+                            docker pull ${IMAGE_NAME}:latest &&
+                            (docker stop ping-api || true) &&
+                            (docker rm ping-api || true) &&
+                            docker run -d \
+                                --name ping-api \
+                                --restart unless-stopped \
+                                -p 8080:8080 \
+                                ${IMAGE_NAME}:latest &&
+                            docker image prune -f
+                        '
+                    """
                 }
             }
         }
     }
 
     post {
-
         success {
             echo "Deployment Successful!"
         }
