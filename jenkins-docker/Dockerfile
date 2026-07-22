@@ -8,5 +8,3 @@ RUN apt-get update && \
         docker.io \
         maven && \
     apt-get clean
-
-USER jenkins
