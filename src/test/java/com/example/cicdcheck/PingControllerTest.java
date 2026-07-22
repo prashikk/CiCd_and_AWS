@@ -1,5 +1,6 @@
 package com.example.cicdcheck;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -22,5 +23,13 @@ class PingControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("pong v3"));
 
+    }
+    @Test
+    @DisplayName("GET /api/charu should return expected greeting message")
+    void checkApi1_ShouldReturnSuccessMessage() throws Exception {
+        // Updated endpoint path to include /api prefix
+        mockMvc.perform(get("/api/charu"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("helloo BEBA!!!!!\uD83E\uDEE0 "));
     }
 }

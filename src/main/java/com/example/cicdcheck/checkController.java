@@ -11,4 +11,8 @@ public class checkController {
     public String checkApi(){
         return "pong v3";
     }
+    @GetMapping("/charu")
+    public String checkApi1(){
+        return "helloo BEBA!!!!!\uD83E\uDEE0 ";
+    }
 }
