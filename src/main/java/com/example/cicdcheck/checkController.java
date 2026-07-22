@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class checkController {
     @GetMapping("/ping")
     public String checkApi(){
-        return "pong v2";
+        return "pong v3";
     }
 }

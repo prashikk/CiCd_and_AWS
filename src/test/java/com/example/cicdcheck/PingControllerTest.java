@@ -20,7 +20,7 @@ class PingControllerTest {
 
         mockMvc.perform(get("/api/ping"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("pong v2"));
+                .andExpect(content().string("pong v3"));
 
     }
 }
